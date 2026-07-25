@@ -1,161 +1,202 @@
 {
     "MAYRA T. JIMENEZ LOPEZ": {
+        "Flexible": true,
         "Entrada_Turno1": "10:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "JUANA PEREZ GOMEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "DOLORES JOSEFA URBINA": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "MA. LUZ GOMEZ GLEZ.": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "MA. LUZ MONTOYA PEREZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "EDAYVIS GLEZ. JUAREZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "EMMANUEL GONZALEZ SANCHEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "CARMEN GOMEZ NUÑEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "ANGELA T. MTNZ. ROVELO": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "YODALDA": {
+    "YODALDAPEREZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Cristobal": {
+    "CRISTOBALPEREZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "FERNANDA": {
+    "FERNANDABOLOM": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "VERONICA": {
+    "VERONICAGOMEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "RODRIGO": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Rolando": {
+    "ROLANDOENTZIN": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "VALERIA": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "JOSE": {
+    "JOSEANTONIOGIRON": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "ANDREA": {
+    "ANDREAISABELRODRIGUEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Rosi": {
+    "ROSAGOMEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Martha": {
+    "MARIAMARTHASANTIS": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Lupita": {
+    "GUADALUPEGIRON": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Cecilia": {
-        "Entrada_Turno1": "09:00",
-        "Salida_Turno1": "13:00",
-        "Entrada_Turno2": "15:00",
-        "Salida_Turno2": "19:00"
-    },
-    "Ferlopez": {
+    "MARIAFERNANDALOPEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
     "Jhorlini": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Ignacio": {
+    "IGNACIOMORENOGASCAR": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Leydy": {
+    "GEORGINAGOMEZ": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "Gina": {
+    "ERNESTOMONTESGARCIA": {
+        "Flexible": false,
+        "Entrada_Turno1": "09:00",
+        "Salida_Turno1": "13:00",
+        "Entrada_Turno2": "15:00",
+        "Salida_Turno2": "19:00"
+    },
+    "EDUARDOMONTESGARCIA": {
+        "Flexible": false,
+        "Entrada_Turno1": "09:00",
+        "Salida_Turno1": "13:00",
+        "Entrada_Turno2": "15:00",
+        "Salida_Turno2": "19:00"
+    },
+    "Majo": {
+        "Flexible": false,
+        "Entrada_Turno1": "09:00",
+        "Salida_Turno1": "13:00",
+        "Entrada_Turno2": "15:00",
+        "Salida_Turno2": "19:00"
+    },
+    "Rojelio": {
+        "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",

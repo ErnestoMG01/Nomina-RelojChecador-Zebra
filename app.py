@@ -44,6 +44,7 @@ with tab_administrador:
     
     if uploaded_file is not None:
         try:
+            # Lectura del archivo...
             try:
                 content = uploaded_file.getvalue().decode('utf-8')
             except UnicodeDecodeError:
@@ -110,49 +111,52 @@ with tab_administrador:
                         empleados_detectados.append(nombre)
                         empleados_raw_data[nombre] = (times_parts, days)
             
-            # --- SUB-SECCIÓN: GESTIÓN DE HORARIOS ---
+            # --- CONFIGURACIÓN DE HORARIOS (Ahora con "Horario Flexible") ---
             st.subheader("⚙️ Configuración y Memoria de Horarios Individuales")
+            st.caption("Marca 'Horario Flexible' para empleados con arreglos especiales (no se les calcularán retardos automáticamente).")
             
             horarios_lista = []
             for emp in empleados_detectados:
-                datos_h = horarios_guardados.get(emp, {"Entrada_Turno1": "09:00", "Salida_Turno1": "13:00", "Entrada_Turno2": "15:00", "Salida_Turno2": "19:00"})
+                datos_h = horarios_guardados.get(emp, {"Entrada_Turno1": "09:00", "Salida_Turno1": "13:00", "Entrada_Turno2": "15:00", "Salida_Turno2": "19:00", "Flexible": False})
                 horarios_lista.append({
                     "PERSONAL": emp,
+                    "Horario Flexible": datos_h.get("Flexible", False),
                     "Entrada 1": datos_h.get("Entrada_Turno1", "09:00"),
                     "Salida 1": datos_h.get("Salida_Turno1", "13:00"),
-                    "Entrada 2 (Opcional)": datos_h.get("Entrada_Turno2", ""),
-                    "Salida 2 (Opcional)": datos_h.get("Salida_Turno2", "")
+                    "Entrada 2 (Opc)": datos_h.get("Entrada_Turno2", ""),
+                    "Salida 2 (Opc)": datos_h.get("Salida_Turno2", "")
                 })
             
             df_editor = pd.DataFrame(horarios_lista)
-            edited_df = st.data_editor(df_editor, use_container_width=True, key="editor_horarios")
+            edited_horarios = st.data_editor(df_editor, use_container_width=True, key="editor_horarios")
             
             nuevo_dict_horarios = {}
-            for _, row in edited_df.iterrows():
+            for _, row in edited_horarios.iterrows():
                 nuevo_dict_horarios[row["PERSONAL"]] = {
+                    "Flexible": bool(row["Horario Flexible"]),
                     "Entrada_Turno1": str(row["Entrada 1"]).strip(),
                     "Salida_Turno1": str(row["Salida 1"]).strip(),
-                    "Entrada_Turno2": str(row["Entrada 2 (Opcional)"]).strip(),
-                    "Salida_Turno2": str(row["Salida 2 (Opcional)"]).strip()
+                    "Entrada_Turno2": str(row["Entrada 2 (Opc)"]).strip(),
+                    "Salida_Turno2": str(row["Salida 2 (Opc)"]).strip()
                 }
             guardar_horarios(nuevo_dict_horarios)
             
-            # --- NUEVA SUB-SECCIÓN: AUDITORÍA DE CHECADAS ORDENADAS ---
+            # --- AUDITORÍA VISUAL ---
             st.markdown("---")
             st.subheader("🔍 Buscador y Verificador de Horarios Reales")
-            st.markdown("Selecciona un trabajador para auditar sus marcajes del reloj ordenados de forma cronológica por día.")
+            empleado_a_verificar = st.selectbox("Selecciona un empleado para auditar sus marcajes del reloj:", ["-- Seleccionar --"] + sorted(empleados_detectados))
             
-            empleado_a_verificar = st.selectbox("Selecciona un empleado para corroborar sus datos:", ["-- Seleccionar --"] + sorted(empleados_detectados))
-            
-            # Procesamiento de la data fina para visualización
+            # Procesamiento de Nómina
             historial_punches_global = {}
-            data_nomina_final = []
+            data_nomina_base = []
             
             for nombre, (times_parts, days) in empleados_raw_data.items():
                 config = nuevo_dict_horarios.get(nombre, {})
+                es_flexible = config.get("Flexible", False)
+                
                 dias_trabajados = 0
                 retardos = 0
-                total_minutos_extra = 0
+                total_horas_extra = 0
                 linhas_tabla_auditoria = []
                 
                 for day_idx, punches in enumerate(times_parts):
@@ -161,69 +165,86 @@ with tab_administrador:
                         
                         if found_times:
                             dias_trabajados += 1
-                            # Agregar al registro ordenado
-                            dia_limpio = str(days[day_idx]).split('.')[0] # Quitar el decimal .0 si existe
+                            dia_limpio = str(days[day_idx]).split('.')[0]
                             linhas_tabla_auditoria.append({
                                 "Día del Periodo": f"Día {dia_limpio}",
-                                "Checadas Registradas (Ordenadas)": "  ➔  ".join(found_times)
+                                "Checadas Reales": "  ➔  ".join(found_times)
                             })
                             
-                            # Evaluar Retardo
-                            first_punch = found_times[0]
-                            if config.get("Entrada_Turno1"):
-                                dif_minutos = calcular_minutos_diferencia(first_punch, config["Entrada_Turno1"])
-                                if dif_minutos >= 7:
-                                    retardos += 1
+                            # RETARDOS: Solo aplicar si NO es flexible
+                            if not es_flexible:
+                                first_punch = found_times[0]
+                                if config.get("Entrada_Turno1"):
+                                    dif_minutos = calcular_minutos_diferencia(first_punch, config["Entrada_Turno1"])
+                                    if dif_minutos >= 7:
+                                        retardos += 1
                             
-                            # Evaluar Horas Extra
+                            # HORAS EXTRA: Evaluadas estrictamente por día, sin acumular minutos sueltos
                             last_punch = found_times[-1]
                             salida_oficial = config["Salida_Turno2"] if config.get("Salida_Turno2") else config["Salida_Turno1"]
                             if salida_oficial:
-                                minutos_extra = calcular_minutos_diferencia(last_punch, salida_oficial)
-                                if minutos_extra > 0:
-                                    total_minutos_extra += minutos_extra
+                                minutos_extra_hoy = calcular_minutos_diferencia(last_punch, salida_oficial)
+                                if minutos_extra_hoy >= 60:
+                                    # Solo cuenta horas completas (ej: 130 min = 2 horas extra)
+                                    horas_extra_hoy = int(minutos_extra_hoy // 60)
+                                    total_horas_extra += horas_extra_hoy
                                     
                 historial_punches_global[nombre] = pd.DataFrame(linhas_tabla_auditoria)
                 
-                # REGLA DE NEGOCIO: 3 Retardos = 1 Falta
-                faltas_por_retardos = retardos // 3
-                horas_extra_decimal = round(total_minutos_extra / 60, 1) if total_minutos_extra > 0 else 0
+                # Regla base: 3 retardos = 1 falta
+                faltas_calculadas = retardos // 3
                 
-                data_nomina_final.append({
+                data_nomina_base.append({
                     'PERSONAL': nombre,
                     'DIAS TRABAJADOS': dias_trabajados,
                     'RETARDOS': retardos,
-                    'FALTAS': faltas_por_retardos if faltas_por_retardos > 0 else 0,
+                    'FALTAS': faltas_calculadas if faltas_calculadas > 0 else 0,
                     'PERMISOS': "",
-                    'HORAS EXTRA': horas_extra_decimal,
+                    'HORAS EXTRA': total_horas_extra if total_horas_extra > 0 else 0,
                     'DESCANSO TRABAJADO': "",
-                    'OBSERVACIONES': f"{retardos} retardos registrados" if retardos > 0 else ""
+                    'OBSERVACIONES': f"Se restaron {faltas_calculadas} día(s) por retardos" if faltas_calculadas > 0 else ""
                 })
             
-            # Mostrar la auditoría si se selecciona un nombre
             if empleado_a_verificar != "-- Seleccionar --":
                 df_auditoria = historial_punches_global.get(empleado_a_verificar, pd.DataFrame())
                 if not df_auditoria.empty:
                     st.dataframe(df_auditoria, use_container_width=True, hide_index=True)
                 else:
-                    st.warning("Este empleado no cuenta con registros de asistencia en el periodo.")
+                    st.warning("Este empleado no cuenta con registros.")
             
-            # --- VISTA GENERAL DE LA NÓMINA ---
+            # --- TABLA INTERACTIVA DE NÓMINA (Tú decides el resultado final) ---
             st.markdown("---")
-            st.subheader("📋 Formato de Nómina Calculado (Con regla de retardos aplicada)")
+            st.subheader("📋 Nómina Final (Modificable)")
+            st.markdown("Haz doble clic en las celdas de **Retardos, Faltas, Permisos u Observaciones** para hacer correcciones manuales o aplicar penalizaciones (como el descuento de 2 días).")
             
-            df_nomina = pd.DataFrame(data_nomina_final)
-            st.session_state["df_nomina_procesada"] = df_nomina
+            df_nomina_pre = pd.DataFrame(data_nomina_base)
             
-            df_presentacion = df_nomina.replace({0: "", "0": "", 0.0: ""})
-            st.dataframe(df_presentacion, use_container_width=True)
+            # Panel interactivo donde el Admin edita
+            df_nomina_editada = st.data_editor(
+                df_nomina_pre,
+                column_config={
+                    "RETARDOS": st.column_config.NumberColumn("RETARDOS (Editar)", min_value=0),
+                    "FALTAS": st.column_config.NumberColumn("FALTAS (Editar)", min_value=0),
+                    "PERMISOS": st.column_config.TextColumn("PERMISOS (Editar)"),
+                    "DESCANSO TRABAJADO": st.column_config.TextColumn("DESCANSO TRABAJADO"),
+                    "OBSERVACIONES": st.column_config.TextColumn("OBSERVACIONES (Editar)")
+                },
+                use_container_width=True,
+                key="editor_nomina_final"
+            )
+            
+            # Guardamos la versión EDITADA para que los trabajadores vean los datos reales modificados
+            st.session_state["df_nomina_procesada"] = df_nomina_editada
+            
+            # Limpieza visual para el Excel final
+            df_excel = df_nomina_editada.replace({0: "", "0": "", 0.0: ""})
             
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                df_nomina.to_excel(writer, index=False, sheet_name='Nómina')
+                df_excel.to_excel(writer, index=False, sheet_name='Nómina')
                 
             st.download_button(
-                label="📥 Descargar Formato Nómina.xlsx",
+                label="📥 Descargar Nómina Procesada.xlsx",
                 data=output.getvalue(),
                 file_name="Nomina_Automatizada_Final.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -239,7 +260,7 @@ with tab_trabajadores:
     st.header("👥 Consulta de Asistencias para Trabajadores")
     
     if "df_nomina_procesada" not in st.session_state:
-        st.info("💡 La información de asistencia estará disponible aquí tan pronto como el administrador suba el reporte correspondiente en la pestaña anterior.")
+        st.info("💡 La información estará disponible cuando Administración verifique los datos.")
     else:
         df_datos = st.session_state["df_nomina_procesada"]
         lista_personal = sorted(df_datos["PERSONAL"].unique())
@@ -250,33 +271,32 @@ with tab_trabajadores:
             fila_empleado = df_datos[df_datos["PERSONAL"] == trabajador_seleccionado].iloc[0]
             
             st.markdown("---")
-            st.subheader(f"Resumen de: {trabajador_seleccionado}")
+            st.subheader(f"Resumen Validado de: {trabajador_seleccionado}")
             
             col1, col2, col3, col4 = st.columns(4)
             
             with col1:
-                st.metric(label="📅 Días Laborados", value=int(fila_empleado['DIAS TRABAJADOS']))
+                st.metric(label="📅 Días Laborados", value=int(fila_empleado['DIAS TRABAJADOS'] if pd.notna(fila_empleado['DIAS TRABAJADOS']) else 0))
             
             with col2:
-                retardos_totales = int(fila_empleado['RETARDOS'])
+                retardos_totales = int(fila_empleado['RETARDOS'] if pd.notna(fila_empleado['RETARDOS']) else 0)
                 st.metric(label="⚠️ Retardos Acumulados", value=retardos_totales)
                 
             with col3:
-                # Mostrar equivalencia exacta de faltas por penalización
-                faltas_totales = int(fila_empleado['FALTAS'])
+                faltas_totales = int(fila_empleado['FALTAS'] if pd.notna(fila_empleado['FALTAS']) else 0)
                 retardos_restantes = retardos_totales % 3
                 
-                subtexto_ayuda = f"Equivale a {faltas_totales} Falta(s)" if faltas_totales > 0 else "Sin faltas aplicadas"
-                if retardos_restantes > 0 and faltas_totales > 0:
-                    subtexto_ayuda += f" (+{retardos_restantes} retardo acumulado)"
-                elif retardos_restantes > 0:
-                    subtexto_ayuda += f" ({retardos_restantes}/3 para falta)"
-                    
-                st.metric(label="❌ Faltas (Por Retardos)", value=faltas_totales, delta=subtexto_ayuda, delta_color="inverse")
+                subtexto = f"({retardos_restantes}/3 para próxima falta)" if retardos_restantes > 0 else "Sin acumulación"
+                st.metric(label="❌ Faltas Totales", value=faltas_totales, delta=subtexto, delta_color="inverse")
                 
             with col4:
-                he_valor = fila_empleado['HORAS EXTRA']
-                st.metric(label="⏰ Horas Extras Registradas", value=f"{he_valor} hrs")
+                he_valor = int(fila_empleado['HORAS EXTRA'] if pd.notna(fila_empleado['HORAS EXTRA']) else 0)
+                st.metric(label="⏰ Horas Extras Aprobadas", value=f"{he_valor} hrs")
+                
+            if pd.notna(fila_empleado['OBSERVACIONES']) and str(fila_empleado['OBSERVACIONES']).strip() != "":
+                st.warning(f"**Observaciones de Administración:** {fila_empleado['OBSERVACIONES']}")
+            if pd.notna(fila_empleado['PERMISOS']) and str(fila_empleado['PERMISOS']).strip() != "":
+                st.info(f"**Permisos Registrados:** {fila_empleado['PERMISOS']}")
                 
             st.markdown("---")
-            st.caption("Nota informativa: Cada 3 retardos acumulados se genera automáticamente 1 falta en tu registro de nómina quincenal.")
+            st.caption("Nota: Las horas extras se contabilizan únicamente por horas completas cumplidas en el mismo día. Cada 3 retardos generan 1 falta automática.")
