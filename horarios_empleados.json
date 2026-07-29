@@ -1,6 +1,6 @@
 {
     "MAYRA T. JIMENEZ LOPEZ": {
-        "Flexible": true,
+        "Flexible": false,
         "Entrada_Turno1": "10:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
@@ -62,28 +62,28 @@
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "YODALDAPEREZ": {
+    "YODALDA": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "CRISTOBALPEREZ": {
+    "Cristobal": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "FERNANDABOLOM": {
+    "FERNANDA": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "VERONICAGOMEZ": {
+    "VERONICA": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
@@ -97,7 +97,7 @@
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "ROLANDOENTZIN": {
+    "Rolando": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
@@ -111,42 +111,49 @@
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "JOSEANTONIOGIRON": {
+    "JOSE": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "ANDREAISABELRODRIGUEZ": {
+    "ANDREA": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "ROSAGOMEZ": {
+    "Rosi": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "MARIAMARTHASANTIS": {
+    "Martha": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "GUADALUPEGIRON": {
+    "Lupita": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "MARIAFERNANDALOPEZ": {
+    "Cecilia": {
+        "Flexible": false,
+        "Entrada_Turno1": "09:00",
+        "Salida_Turno1": "13:00",
+        "Entrada_Turno2": "15:00",
+        "Salida_Turno2": "19:00"
+    },
+    "Ferlopez": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
@@ -160,42 +167,21 @@
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "IGNACIOMORENOGASCAR": {
+    "Ignacio": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "GEORGINAGOMEZ": {
+    "Leydy": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
         "Entrada_Turno2": "15:00",
         "Salida_Turno2": "19:00"
     },
-    "ERNESTOMONTESGARCIA": {
-        "Flexible": false,
-        "Entrada_Turno1": "09:00",
-        "Salida_Turno1": "13:00",
-        "Entrada_Turno2": "15:00",
-        "Salida_Turno2": "19:00"
-    },
-    "EDUARDOMONTESGARCIA": {
-        "Flexible": false,
-        "Entrada_Turno1": "09:00",
-        "Salida_Turno1": "13:00",
-        "Entrada_Turno2": "15:00",
-        "Salida_Turno2": "19:00"
-    },
-    "Majo": {
-        "Flexible": false,
-        "Entrada_Turno1": "09:00",
-        "Salida_Turno1": "13:00",
-        "Entrada_Turno2": "15:00",
-        "Salida_Turno2": "19:00"
-    },
-    "Rojelio": {
+    "Gina": {
         "Flexible": false,
         "Entrada_Turno1": "09:00",
         "Salida_Turno1": "13:00",
